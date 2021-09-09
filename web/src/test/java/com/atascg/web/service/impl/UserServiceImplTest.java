@@ -29,8 +29,7 @@ public class UserServiceImplTest {
 
     @Test
     public void saveUser(){
-        User user = new User();
-        user.setName("test");
+        User user = new User("test", "test@test.com", "000000000");
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(user);
         User savedUser = userServiceImpl.save(user);
         assertEquals("test", savedUser.getName());
