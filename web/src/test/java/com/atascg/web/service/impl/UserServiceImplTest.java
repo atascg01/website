@@ -22,17 +22,30 @@ public class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
+    private User user = new User("test", "test@test.com", "000000000");
+
     @BeforeEach
     public void setUp(){
         Mockito.when(userServiceImpl.getUserRepository()).thenReturn(userRepository);
     }
 
     @Test
-    public void saveUser(){
-        User user = new User("test", "test@test.com", "000000000");
+    public void userIsSaved(){
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(user);
         User savedUser = userServiceImpl.save(user);
         assertEquals("test", savedUser.getName());
+    }
+
+    @Test
+    public void userIsRetrievedByEmail(){
+        Mockito.when(userRepository.findByEmail("test@test.com")).thenReturn(user);
+        assertEquals(userServiceImpl.getByEmail("test@test.com"), user);
+    }
+
+    @Test
+    public void userIsNotFoundByEmail(){
+        Mockito.when(userRepository.findByEmail(Mockito.any())).thenReturn(null);
+        assertNull(userServiceImpl.getByEmail("different@different.com"));
     }
 
 }

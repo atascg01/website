@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/user")
 public class UserRest {
@@ -30,6 +32,11 @@ public class UserRest {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(user);
+    }
+
+    @GetMapping(value = "/get")
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email){
+        return ResponseEntity.of(Optional.ofNullable(userServiceImpl.getByEmail(email)));
     }
 
 }
